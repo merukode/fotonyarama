@@ -34,22 +34,27 @@ export default function HorizontalArticleScroller({ posts, className = "" }: Pro
         // Lebar track = jumlah slide * 100vw
         track.style.width = `${slides * 100}vw`;
 
-        // Tinggi wrapper = jarak scroll yang dibutuhkan
-        // Supaya dari 0 -> akhir = (trackWidth - viewportWidth)
-        const totalScrollX = slides * vw - vw; // px
-        const wrapperHeight = totalScrollX + vh; // px (tambahkan 1 layar untuk area sticky)
+        // Tinggi wrapper = jarak scroll yang dibutuhkan untuk menggerakkan horizontal
+        // Setiap slide membutuhkan scroll sebesar viewport height
+        const wrapperHeight = slides * vh;
         wrap.style.height = `${wrapperHeight}px`;
 
         let rafId = 0;
         const onScroll = () => {
             // Progress scroll dalam wrapper
-            const rect = wrap.getBoundingClientRect(); // top relatif viewport
-            const start = rect.top; // negatif saat sudah discroll
-            const max = wrapperHeight - vh; // total jarak scroll efektif
-            const scrolled = Math.min(Math.max(-start, 0), max); // clamp 0..max
+            const rect = wrap.getBoundingClientRect();
+            const start = rect.top;
+            const max = wrapperHeight - vh;
+            const scrolled = Math.min(Math.max(-start, 0), max);
 
+            // Progress dari 0 ke 1
             const progress = max > 0 ? scrolled / max : 0;
-            const translate = -progress * totalScrollX;
+            
+            // Hitung translate: dari 0 sampai -(slides-1) * vw
+            // Pastikan progress tidak melebihi 1
+            const clampedProgress = Math.min(progress, 1);
+            const totalScrollX = (slides - 1) * vw;
+            const translate = -clampedProgress * totalScrollX;
 
             // pakai RAF biar halus
             cancelAnimationFrame(rafId);
@@ -62,9 +67,10 @@ export default function HorizontalArticleScroller({ posts, className = "" }: Pro
         const onResize = () => {
             const vw2 = window.innerWidth;
             const vh2 = window.innerHeight;
-            const totalScrollX2 = posts.length * vw2 - vw2;
-            const wrapperHeight2 = totalScrollX2 + vh2;
-            track.style.width = `${posts.length * 100}vw`;
+            const wrapperHeight2 = slides * vh2;
+            const totalScrollX2 = (slides - 1) * vw2;
+            
+            track.style.width = `${slides * 100}vw`;
             wrap.style.height = `${wrapperHeight2}px`;
             onScroll();
         };
