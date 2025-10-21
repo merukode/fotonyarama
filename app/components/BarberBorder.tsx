@@ -11,8 +11,8 @@ export type BarberBorderProps = {
 };
 
 export default function BarberBorder({
-    height = "85px",
-    stripe = 43,
+    height = "70px",
+    stripe = 50,
     angle = 45,
     speed = 1,
     direction = "left",

@@ -4,6 +4,7 @@ import { Playfair_Display, Lora } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import VinylPlayer from "./components/VinylPlayer"
+import Navbar from "./components/Navbar"
 
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-serif" })
 const lora = Lora({ subsets: ["latin"], variable: "--font-body" })

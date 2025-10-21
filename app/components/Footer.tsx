@@ -2,7 +2,7 @@ import React from 'react'
 
 function Footer() {
     return (
-        <footer className="border-t-4 border-black px-6 md:px-12 py-16 md:py-20 bg-gray-50">
+        <footer className="border-t-4 border-black px-6 md:px-12 py-16 md:py-20 bg-gray-50 rounded-b-[4rem]">
             <div className="max-w-6xl mx-auto">
                 <div className="border-b-2 border-black pb-8 mb-8">
                     <p className="font-serif text-2xl md:text-3xl font-black mb-4">FOTONYARAMA</p>
